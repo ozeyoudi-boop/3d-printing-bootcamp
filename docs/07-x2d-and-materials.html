@@ -1,0 +1,40 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The X2D, filaments and upkeep · 3D Printing Bootcamp</title><link rel="stylesheet" href="assets/css/main.css"></head><body>
+<header class="top"><a class="brand" href="index.html">3DP Bootcamp</a><div class="bar" role="progressbar" aria-label="Course progress"><i></i></div><button id="theme" type="button" aria-label="Toggle dark mode">◐</button></header>
+<main><div class="kicker">Module 7</div><h1>The X2D, filaments and upkeep</h1>
+<div class="objectives"><h3>By the end you can…</h3><ul><li>Explain what the X2D's dual-nozzle design is for</li><li>Choose a filament for a job and handle its storage</li><li>Keep a print log and a simple maintenance routine</li></ul></div>
+
+<h2>The dual-nozzle toolhead</h2>
+<p>Launch coverage describes the X2D as a dual-nozzle machine with a mechanical switching mechanism (no extra motor in the toolhead). One nozzle is the main model nozzle; the second is mainly pitched for <strong>support material</strong>, including soluble supports, rather than for colour changes. In dual-nozzle mode the usable X width and height are reduced compared with the main nozzle alone — reviewers quote roughly 235 × 256 × 256 mm against 256 × 256 × 260 mm. <em>Check the Bambu Wiki for your printer's current figures.</em></p>
+<p><strong>Why it matters for design:</strong> you can print complex overhangs with support material that comes off cleanly or dissolves, instead of fighting scarred surfaces. That rewards more ambitious geometry: internal channels, bridged cavities and nested parts.</p>
+<div class="callout warn"><strong>Not verified here:</strong> exact Bambu Studio menu steps for assigning the second nozzle, which support-filament pairs are approved, and AMS compatibility. Read the Wiki page for your model; don't rely on forum guesses.</div>
+
+<h2>The heated chamber</h2>
+<p>The enclosure heats up to 65 °C. Hot chambers reduce warping and improve layer bonding in materials that shrink strongly (ABS, ASA, nylon, polycarbonate). Nozzles up to 300 °C cover most common engineering filaments.</p>
+<div class="callout"><strong>PLA warning:</strong> PLA softens at low temperatures, and a hot chamber can soften the filament before the nozzle (heat creep). For PLA keep the chamber cool, usually by opening the door/lid as the Wiki recommends.</div>
+
+<h2>Choosing filament</h2>
+<div class="table-wrap"><table><tr><th>Material</th><th>Strengths</th><th>Watch out for</th></tr><tr><td>PLA</td><td>Easy, stiff, great detail</td><td>Softens near 55–60 °C, brittle; keep out of cars</td></tr><tr><td>PETG</td><td>Tougher, better heat resistance</td><td>Stringing; sticks strongly to some plates</td></tr><tr><td>ABS / ASA</td><td>Heat and UV resistance (ASA), post-processing</td><td>Needs enclosure; fumes: ventilate</td></tr><tr><td>TPU</td><td>Flexible parts</td><td>Slow printing; often needs dry filament</td></tr><tr><td>PA (nylon) / PC</td><td>Strong, tough, high heat</td><td>Absorb moisture: dry before printing</td></tr><tr><td>Carbon/glass fibre blends</td><td>Stiff, dimensionally stable</td><td>Abrasive: use a hardened nozzle</td></tr></table></div>
+<p>Reviews list a hardened-steel 0.4 mm nozzle on the X2D, which suits abrasive filaments, but confirm what your unit ships with.</p>
+<ul><li>Store filament sealed with desiccant. Dry nylon, TPU, PETG and PVA before printing.</li><li>Use the bundled filament profiles in Bambu Studio: they set temperature, cooling and flow.</li><li>Ventilate when printing ABS/ASA/PC.</li></ul>
+
+<h2>Upkeep routine</h2>
+<ul><li><strong>Every print:</strong> check the first layer; wipe the plate with isopropyl alcohol or warm soapy water for adhesion.</li><li><strong>Weekly:</strong> inspect the nozzle for clumps, clear debris from the purge area, check cables and fans.</li><li><strong>Per the Wiki:</strong> follow the lubrication and calibration schedule for your printer. Don't invent intervals.</li><li><strong>Keep a log:</strong> material, settings, result. After 20 entries you'll have your own cookbook.</li></ul>
+
+<h2>Exercises</h2>
+<div class="exercise"><span class="tag">EXERCISE 1</span><h3>Material choice</h3><p>Choose filament for: (a) a car-dash phone mount in summer; (b) a quick visual prototype; (c) a flexible drone-camera mount; (d) a gear that sees friction and heat.</p>
+<details class="hint"><summary>Hint</summary><div>Think heat, stiffness, flexibility.</div></details>
+<details class="solution"><summary>Show solution</summary><div>(a) ASA or PETG (heat/UV). (b) PLA. (c) TPU. (d) Nylon (PA) or carbon-filled nylon, dried, with a hardened nozzle.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 2</span><h3>Design for the support nozzle</h3><p>Sketch (on paper) a part that would be hard with normal supports but easy with dissolvable ones.</p>
+<details class="hint"><summary>Hint</summary><div>Internal cavities are hard to reach.</div></details>
+<details class="solution"><summary>Show solution</summary><div>A box with a captive internal ball joint, or a hollow channel with overhanging roofs. After printing, soluble support washes out of spaces tools can't reach.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 3</span><h3>Start your log</h3><p>Create a table with columns: date, file, material, layer/loops/infill, result, next change. Log your next print.</p>
+<details class="hint"><summary>Hint</summary><div>Use your notes box or a spreadsheet.</div></details>
+<details class="solution"><summary>Show solution</summary><div>Consistent logging beats memory. After a month, sort by result to see which settings work for you.</div></details></div>
+<h2>Checkpoint quiz</h2><div class="quiz"><div class="q" data-answer="0"><p>The X2D's second nozzle is mainly intended for…</p><div class="opts"><button type="button">Support material</button><button type="button">Cooling</button><button type="button">Cutting filament</button></div><div class="why">It's pitched at (soluble) supports, not multicolour printing.</div></div><div class="q" data-answer="1"><p>Why take care with PLA in a hot chamber?</p><div class="opts"><button type="button">It gets stronger</button><button type="button">The filament can soften and jam before the nozzle</button><button type="button">It changes colour</button></div><div class="why">Heat creep. Open the chamber door/lid for PLA as the Wiki advises.</div></div><div class="q" data-answer="0"><p>Which filament absorbs moisture strongly and should be dried?</p><div class="opts"><button type="button">Nylon (PA)</button><button type="button">PLA only</button><button type="button">None do</button></div><div class="why">PA, TPU, PETG and PVA all benefit from drying.</div></div><div class="q" data-answer="1"><p>Where do you find exact X2D maintenance intervals?</p><div class="opts"><button type="button">Guess</button><button type="button">Bambu Lab Wiki</button><button type="button">The slicer preview</button></div><div class="why">The official wiki is authoritative.</div></div><p class="score">Answer all questions. Pass mark: 70%.</p></div>
+
+<h2>You can now…</h2><ul><li>Explain the dual-nozzle idea</li><li>Choose filament by job</li><li>Maintain and log your printing</li></ul>
+<p><button id="mark" class="primary" type="button">Mark module complete</button></p>
+<h3>Your notes</h3><textarea class="notes" aria-label="Notes for this page" placeholder="Settings that worked, mistakes, ideas…"></textarea>
+<div class="nav"><a class="btn" href="06-slicing.html">← Slicing in Bambu Studio</a><a class="btn primary" href="capstone.html">Capstone: snap-fit box →</a></div></main><script src="assets/js/main.js"></script></body></html>

@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design for print · 3D Printing Bootcamp</title><link rel="stylesheet" href="assets/css/main.css"></head><body>
+<header class="top"><a class="brand" href="index.html">3DP Bootcamp</a><div class="bar" role="progressbar" aria-label="Course progress"><i></i></div><button id="theme" type="button" aria-label="Toggle dark mode">◐</button></header>
+<main><div class="kicker">Module 4</div><h1>Design for print</h1>
+<div class="objectives"><h3>By the end you can…</h3><ul><li>Apply minimum wall, overhang, bridge and clearance rules</li><li>Size holes, screw bosses and fits correctly</li><li>Choose orientation and split a model into printable pieces</li></ul></div>
+
+<h2>The core numbers (0.4 mm nozzle, PLA/PETG)</h2>
+<div class="table-wrap"><table><tr><th>Feature</th><th>Rule of thumb</th><th>Why</th></tr><tr><td>Wall thickness</td><td>≥ 1.2 mm; ≥ 2.0 mm if it carries load</td><td>Multiples of line width (≈ 0.42 mm)</td></tr><tr><td>Smallest feature</td><td>≥ 0.4 mm; text strokes ≥ 0.8 mm, relief ≥ 0.6 mm</td><td>Nozzle can't draw thinner</td></tr><tr><td>Overhang</td><td>≤ 45° from vertical without support</td><td>Layers need something below</td></tr><tr><td>Bridge</td><td>≤ ~25 mm clean, ~50 mm sags</td><td>Unsupported span sags</td></tr><tr><td>Hole (clearance)</td><td>nominal + 0.2 to 0.4 mm</td><td>Holes print slightly small</td></tr><tr><td>M3 screw clearance hole</td><td>3.2–3.4 mm</td><td>Fit around a 3.0 mm screw</td></tr><tr><td>Sliding fit gap</td><td>0.3–0.4 mm loose, 0.2 mm snug</td><td>Under 0.1 mm parts fuse</td></tr><tr><td>Press fit</td><td>pin + 0.05–0.15 mm; test first</td><td>Depends on printer and material</td></tr><tr><td>Bottom edge</td><td>0.4–0.6 mm chamfer</td><td>Hides elephant foot</td></tr><tr><td>Corners</td><td>Fillet inside corners ≥ 1 mm</td><td>Sharp corners concentrate stress</td></tr></table></div>
+<p>Heat-set inserts and self-tapping screws need specific hole sizes. Use the supplier's datasheet: for example, short M3 inserts commonly want a hole of about 4.0–4.2 mm, and a self-tapping M3 screw a pilot around 2.5 mm — but verify with a test coupon.</p>
+
+<h2>Lab: design-for-print checker</h2>
+<p>Move the sliders to see how a design choice scores. These thresholds match the table above.</p>
+<div class="lab" id="dfp">
+<label>Wall thickness (mm) <input id="wall" type="range" min="0.4" max="4" step="0.1" value="1.6"><output></output></label>
+<label>Overhang lean from vertical (°) <input id="ang" type="range" min="0" max="90" step="1" value="40"><output></output></label>
+<label>Hole diameter (mm) <input id="hole" type="range" min="1" max="12" step="0.1" value="3.4"><output></output></label>
+<label>Bridge length (mm) <input id="bridge" type="range" min="0" max="100" step="1" value="20"><output></output></label>
+<label>Moving-part gap (mm) <input id="gap" type="range" min="0" max="0.6" step="0.05" value="0.3"><output></output></label>
+<div id="dfp-out" aria-live="polite"></div>
+</div>
+<noscript><p>Enable JavaScript for the checker; the table above has all the numbers.</p></noscript>
+
+<h2>Orientation and splitting</h2>
+<ul><li>Put the <strong>largest flat face</strong> on the plate: best adhesion, no support.</li><li>Run layers <strong>along</strong> the direction of load.</li><li>Put critical round holes <strong>vertical</strong> (axis along Z); horizontal holes print slightly oval and sag at the top. If horizontal is unavoidable, use a <strong>teardrop</strong> or diamond hole shape.</li><li><strong>Split</strong> complex parts into pieces that each print flat, then join with pins, screws or glue.</li><li>Add <strong>chamfers</strong> on lower edges instead of overhanging fillets.</li></ul>
+
+<h2>Worked example: M3 screw boss</h2>
+<p>You need a post that takes an M3 screw into a heat-set insert (4.2 mm hole from the datasheet). The post wall around the hole should be at least 2 mm: 4.2 + 2×2 = 8.2, so use an 8–9 mm post. Fillet its base 1 mm onto the floor so it doesn't snap off.</p>
+
+<h2>Exercises</h2>
+<div class="exercise"><span class="tag">EXERCISE 1</span><h3>Size three holes</h3><p>Pick CAD diameters for: a 5 mm steel rod that must slide freely, a 3 mm screw passing through, and a 10 mm magnet that should press in.</p>
+<details class="hint"><summary>Hint</summary><div>Use nominal + clearance from the table; press fits need a test.</div></details>
+<details class="solution"><summary>Show solution</summary><div>Rod: 5.3–5.4 mm. M3 screw: 3.3–3.4 mm. Magnet: start at 10.1 mm (+0.1), print a test piece, and adjust in 0.05 mm steps.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 2</span><h3>Fix the design</h3><p>A bracket has a shelf that leans 60° from vertical and a 0.8 mm wall. Propose two changes so it prints without supports and survives use.</p>
+<details class="hint"><summary>Hint</summary><div>One change handles the overhang, one the wall.</div></details>
+<details class="solution"><summary>Show solution</summary><div>Chamfer the shelf underside to 45° (or add a triangular gusset). Thicken the wall to at least 1.2 mm — 2.0 mm if it carries load.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 3</span><h3>Orient it</h3><p>A hinge pin 5 mm in diameter and 30 mm long will be bent by a lever. Lying flat or standing? Why?</p>
+<details class="hint"><summary>Hint</summary><div>Which orientation puts layer lines along the length?</div></details>
+<details class="solution"><summary>Show solution</summary><div>Lying flat: layers run along the pin so bending doesn't peel layers apart. Standing, it would snap at a layer line. Use a flat-bottomed profile or a tiny support if the round shape sags.</div></details></div>
+<h2>Checkpoint quiz</h2><div class="quiz"><div class="q" data-answer="2"><p>Minimum wall for a load-bearing part?</p><div class="opts"><button type="button">0.4 mm</button><button type="button">1.2 mm</button><button type="button">About 2 mm or more</button></div><div class="why">Load-carrying walls should be several loops thick, ≥ 2 mm.</div></div><div class="q" data-answer="2"><p>An M3 clearance hole in CAD should be about…</p><div class="opts"><button type="button">2.5 mm</button><button type="button">3.0 mm</button><button type="button">3.4 mm</button></div><div class="why">Holes print small, so add 0.2–0.4 mm to the screw diameter.</div></div><div class="q" data-answer="1"><p>Which gap makes a moving joint that doesn't fuse?</p><div class="opts"><button type="button">0.05 mm</button><button type="button">0.3–0.4 mm</button><button type="button">0 mm</button></div><div class="why">Below ~0.1 mm the lines merge; 0.3–0.4 mm slides freely.</div></div><div class="q" data-answer="1"><p>Best shape for a horizontal round hole you can't rotate?</p><div class="opts"><button type="button">Circle</button><button type="button">Teardrop</button><button type="button">Square</button></div><div class="why">A teardrop's peak is 45°, so it prints without support.</div></div><div class="q" data-answer="0"><p>Why chamfer the bottom edge?</p><div class="opts"><button type="button">Hide elephant foot</button><button type="button">Print faster</button><button type="button">Improve colour</button></div><div class="why">The squished first layers bulge outward; a chamfer absorbs that.</div></div><p class="score">Answer all questions. Pass mark: 70%.</p></div>
+
+<h2>You can now…</h2><ul><li>Apply the core numbers</li><li>Size holes and fits</li><li>Orient and split for printing</li></ul>
+<p><button id="mark" class="primary" type="button">Mark module complete</button></p>
+<h3>Your notes</h3><textarea class="notes" aria-label="Notes for this page" placeholder="Settings that worked, mistakes, ideas…"></textarea>
+<div class="nav"><a class="btn" href="03-design-first-model.html">← Design your first model</a><a class="btn primary" href="05-edit-and-repair.html">Edit, repair and remix models →</a></div></main><script src="assets/js/main.js"></script></body></html>

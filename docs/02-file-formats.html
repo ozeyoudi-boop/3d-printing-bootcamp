@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>File formats and conversion · 3D Printing Bootcamp</title><link rel="stylesheet" href="assets/css/main.css"></head><body>
+<header class="top"><a class="brand" href="index.html">3DP Bootcamp</a><div class="bar" role="progressbar" aria-label="Course progress"><i></i></div><button id="theme" type="button" aria-label="Toggle dark mode">◐</button></header>
+<main><div class="kicker">Module 2</div><h1>File formats and conversion</h1>
+<div class="objectives"><h3>By the end you can…</h3><ul><li>Choose between STEP, STL, 3MF and OBJ for any situation</li><li>Convert between mesh formats with a short script or an app</li><li>Diagnose a wrong-size import (unit mismatch)</li></ul></div>
+
+<h2>Two families: solid models and meshes</h2>
+<p><strong>Solid (B-rep) models</strong> store exact surfaces — a cylinder is a cylinder. <strong>Meshes</strong> store thousands of triangles approximating the surface. CAD programs work in solids; slicers work in meshes. Going solid → mesh is easy and safe. Going mesh → solid is lossy and often impossible, so <em>always keep your original CAD file</em>.</p>
+<div class="table-wrap"><table><tr><th>Format</th><th>Type</th><th>Keeps</th><th>Use it for</th></tr><tr><td><code>.step / .stp</code></td><td>Solid</td><td>Exact geometry, editable in any CAD</td><td>Sharing a part someone else will edit</td></tr><tr><td><code>.stl</code></td><td>Mesh</td><td>Triangles only. No units, colour or settings</td><td>Universal download format; fine for one-colour prints</td></tr><tr><td><code>.3mf</code></td><td>Mesh + package</td><td>Units, multiple objects, colours, and slicer settings</td><td>Best format for Bambu Studio; Bambu's project files are 3MF</td></tr><tr><td><code>.obj</code></td><td>Mesh</td><td>Triangles/polygons, colours and textures through an .mtl file</td><td>Scans and Blender workflows</td></tr><tr><td><code>.f3d / .blend / .FCStd</code></td><td>Native</td><td>Everything that app knows</td><td>Your working source files</td></tr></table></div>
+<div class="callout warn"><strong>STL has no units.</strong> The slicer assumes millimetres. A model exported in inches arrives 25.4× too small. Always confirm size after import.</div>
+
+<h2>Conversion paths that work</h2>
+<ul><li>CAD → <strong>3MF</strong> or STL: use the app's export / “save as mesh” command. Pick a fine refinement setting so curves aren't visibly faceted.</li><li>STEP → slicer: Bambu Studio can import STEP directly and turns it into a mesh for you.</li><li>OBJ ↔ STL ↔ 3MF: any mesh app, or the script below.</li><li>Mesh → STEP: avoid. Use the mesh only as reference and rebuild it in CAD if you need dimensional edits.</li></ul>
+
+<h2>Worked example: convert and sanity-check in Python</h2>
+<p>This uses the <code>trimesh</code> library (<code>pip install trimesh numpy</code>).</p>
+<pre><code>import trimesh
+
+mesh = trimesh.load("part.obj", force="mesh")   # load as one mesh
+print("size (x,y,z):", mesh.extents)             # compare with what you expect, in mm
+print("watertight:", mesh.is_watertight)         # True = closed, printable solid
+print("volume mm3:", mesh.volume if mesh.is_watertight else "n/a")
+
+mesh.export("part.stl")                          # format chosen from the extension</code></pre>
+<p>If a part you designed as 100 mm wide reports <code>3.94</code> in <code>extents</code>, it was exported in inches. Multiply by 25.4 — in the script with <code>mesh.apply_scale(25.4)</code> or in the slicer by scaling 2540%.</p>
+
+<h2>Exercises</h2>
+<div class="exercise"><span class="tag">EXERCISE 1</span><h3>Pick the format</h3><p>Choose a format for each: (a) a bracket a friend will modify in their CAD; (b) a two-colour keychain you'll slice yourself; (c) a figurine you're uploading for people to print in one colour; (d) a coloured scan from your phone.</p>
+<details class="hint"><summary>Hint</summary><div>Ask: does anyone need to edit it? Does colour matter?</div></details>
+<details class="solution"><summary>Show solution</summary><div>(a) STEP. (b) 3MF — keeps colours and objects. (c) STL (universal) or 3MF. (d) OBJ with its .mtl/texture, or 3MF.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 2</span><h3>Diagnose the size</h3><p>You export a 2-inch cube from CAD set to inches and import it into Bambu Studio. It appears 2 mm wide. Why, and what fixes it?</p>
+<details class="hint"><summary>Hint</summary><div>STL stores the number 2, not the unit.</div></details>
+<details class="solution"><summary>Show solution</summary><div>The slicer reads 2 as 2 mm. Fix by exporting in millimetres (preferred) or by scaling the model by 25.4× (2540%) to get 50.8 mm.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 3</span><h3>Run the check</h3><p>Run the Python example on a downloaded STL (change the filename). Report extents and watertight status. If it isn't watertight, what does that predict?</p>
+<details class="hint"><summary>Hint</summary><div>A non-watertight mesh has holes in the surface.</div></details>
+<details class="solution"><summary>Show solution</summary><div>A non-watertight mesh may slice with missing walls or odd gaps. Repair it in module 5 before printing.</div></details></div>
+<h2>Checkpoint quiz</h2><div class="quiz"><div class="q" data-answer="1"><p>Which format can reliably go back into CAD for dimensional edits?</p><div class="opts"><button type="button">STL</button><button type="button">STEP</button><button type="button">OBJ</button></div><div class="why">STEP carries exact solid geometry; meshes do not.</div></div><div class="q" data-answer="1"><p>STL files store…</p><div class="opts"><button type="button">Units and colours</button><button type="button">Only triangles — no units</button><button type="button">Slicer settings</button></div><div class="why">STL is triangles only; the slicer assumes millimetres.</div></div><div class="q" data-answer="0"><p>Best format for Bambu Studio projects with colours and settings?</p><div class="opts"><button type="button">3MF</button><button type="button">STL</button><button type="button">SVG</button></div><div class="why">3MF is a package that stores objects, colours and settings.</div></div><div class="q" data-answer="1"><p>A 100 mm part imports as 3.94 mm. Likely cause?</p><div class="opts"><button type="button">Wrong nozzle</button><button type="button">Exported in inches</button><button type="button">Too little infill</button></div><div class="why">100 mm ≈ 3.94 in; the slicer read 3.94 as millimetres.</div></div><p class="score">Answer all questions. Pass mark: 70%.</p></div>
+
+<h2>You can now…</h2><ul><li>Choose the right format for a job</li><li>Convert meshes in an app or a script</li><li>Fix unit-mismatch imports</li></ul>
+<p><button id="mark" class="primary" type="button">Mark module complete</button></p>
+<h3>Your notes</h3><textarea class="notes" aria-label="Notes for this page" placeholder="Settings that worked, mistakes, ideas…"></textarea>
+<div class="nav"><a class="btn" href="01-how-fdm-works.html">← How FDM printing really works</a><a class="btn primary" href="03-design-first-model.html">Design your first model →</a></div></main><script src="assets/js/main.js"></script></body></html>

@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Capstone: a snap-fit box · 3D Printing Bootcamp</title><link rel="stylesheet" href="assets/css/main.css"></head><body>
+<header class="top"><a class="brand" href="index.html">3DP Bootcamp</a><div class="bar" role="progressbar" aria-label="Course progress"><i></i></div><button id="theme" type="button" aria-label="Toggle dark mode">◐</button></header>
+<main><div class="kicker">Capstone</div><h1>Capstone: a snap-fit box</h1>
+<div class="objectives"><h3>By the end you can…</h3><ul><li>Design a two-part parametric box with a snap-fit lid</li><li>Calculate whether the snap hooks will survive</li><li>Print, measure, adjust and document the result</li></ul></div>
+
+<h2>The brief</h2>
+<p>Design and print a small storage box (inner size about 60 × 40 × 25 mm) with a lid that snaps shut without screws. It must close firmly, open without breaking, print without supports, and be fully parametric so you can resize it for anything (SD cards, coins, spare screws).</p>
+
+<h2>Specification</h2>
+<ul><li>Two bodies: <strong>box</strong> and <strong>lid</strong>, both with a flat face on the plate.</li><li>Named parameters: <code>in_w, in_d, in_h, wall, clear, snap_t, snap_len, snap_y</code>.</li><li>Walls ≥ 2 mm; all outside bottom edges chamfered 0.5 mm; inside corners filleted ≥ 1 mm.</li><li>Lid lip fits inside the box with <code>clear</code> = 0.25 mm per side.</li><li>Two cantilever snap hooks on the short sides.</li><li>Prints without supports.</li></ul>
+
+<h2>Milestones</h2>
+<ol><li><strong>M1 – Parameters and box body</strong> (module 3).</li><li><strong>M2 – Lid and lip</strong> with clearance (module 4).</li><li><strong>M3 – Snap hooks</strong> and strain check (below).</li><li><strong>M4 – Export</strong> 3MF in mm, slice in Bambu Studio, check the preview (modules 2 and 6).</li><li><strong>M5 – Print, measure, iterate</strong> until the fit is right. Log every change.</li></ol>
+
+<h2>Snap-hook check</h2>
+<p>For a straight rectangular cantilever hook, the peak strain when the tip deflects by <code>y</code> is approximately:</p>
+<pre><code>strain = 1.5 * t * y / L**2     # t = beam thickness, y = tip deflection, L = beam length (same units)</code></pre>
+<p>Example: t = 1.5 mm, y = 0.6 mm, L = 12 mm → 1.5 × 1.5 × 0.6 / 144 ≈ 0.0094 = 0.94%. That is comfortable for PETG; PLA is brittle, so prefer lower strain or a longer beam. Longer, thinner beams flex more safely, and beams printed with layers along their length stay strong, so orient the hooks so layers run along them.</p>
+
+<h2>Rubric (self-assessment)</h2>
+<div class="table-wrap"><table><tr><th>Criterion</th><th>Pass looks like</th></tr><tr><td>Parametric</td><td>Changing in_w, in_d, in_h rebuilds without errors</td></tr><tr><td>Fit</td><td>Lid snaps on with a clear click, opens by hand, no gap > 0.5 mm</td></tr><tr><td>Printability</td><td>No supports; first layer full; no elephant-foot jamming</td></tr><tr><td>Durability</td><td>Survives 50 open/close cycles without cracking</td></tr><tr><td>Documentation</td><td>Notes list each iteration, the change and the measurement</td></tr></table></div>
+
+<h2>Reference solution</h2>
+<details class="solution"><summary>Show one reference design</summary><div>
+<p><strong>Parameters:</strong> in_w 60, in_d 40, in_h 25, wall 2.0, clear 0.25, snap_t 1.5, snap_len 12, snap_y 0.6.</p>
+<ol><li>Box outer = inner + 2×wall; extrude to in_h + wall. Shell open top. Fillet vertical outside edges 2 mm, inside corners 1 mm. Chamfer the bottom outside edge 0.5 mm.</li><li>On both short walls, cut a rectangular window 8 mm wide near the rim and leave a catch ledge 0.6 mm deep (snap_y).</li><li>Lid plate = outer size × 2 mm thick. Lip below it = inner size − 2×clear, 4 mm tall, wall 1.6 mm.</li><li>On the lip's short sides add a flexible hook: beam thickness snap_t, length snap_len, end bump height snap_y with a 45° lead-in chamfer (easy closing) and a steeper back face (holds firmly).</li><li>Export both bodies to one 3MF; print the lid upside-down so the plate is flat on the bed and the lip points up.</li><li>First-print result to expect: if the lid is too loose, reduce clear to 0.2 or raise snap_y to 0.7; if it is too tight or the hooks crack, raise clear to 0.3 or lengthen snap_len to 14.</li></ol>
+</div></details>
+
+<div class="exercise"><span class="tag">EXERCISE 1</span><h3>Stretch goal</h3><p>Add a thumb notch at the lid edge and a text label on the lid (emboss 0.6 mm in Bambu Studio).</p>
+<details class="hint"><summary>Hint</summary><div>Text emboss is in Bambu Studio's right-click menu.</div></details>
+<details class="solution"><summary>Show solution</summary><div>Use a bold font at least 6 mm tall so strokes are ≥ 0.8 mm; keep the text on the top flat face.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 2</span><h3>Stress test</h3><p>Open and close the lid 50 times. Where does it wear first? Redesign that spot.</p>
+<details class="hint"><summary>Hint</summary><div>Look at the hook root.</div></details>
+<details class="solution"><summary>Show solution</summary><div>Cracks at the hook root mean strain is too high. Lengthen the beam, thin it, or add a larger root fillet.</div></details></div>
+<h2>Checkpoint quiz</h2><div class="quiz"><div class="q" data-answer="0"><p>How should snap hook layers run?</p><div class="opts"><button type="button">Along the beam length</button><button type="button">Across the beam</button><button type="button">It doesn&#x27;t matter</button></div><div class="why">Layers along the beam prevent inter-layer failure at the root.</div></div><div class="q" data-answer="0"><p>Strain formula for a rectangular cantilever hook…</p><div class="opts"><button type="button">1.5·t·y / L²</button><button type="button">t + y + L</button><button type="button">y / t</button></div><div class="why">Longer beams (L²) cut strain quickly.</div></div><div class="q" data-answer="0"><p>Lid too loose. First try…</p><div class="opts"><button type="button">Reduce clearance a little or raise snap bump height</button><button type="button">Print slower</button><button type="button">Use more infill</button></div><div class="why">Fit changes come from geometry, not infill.</div></div><div class="q" data-answer="0"><p>Why print the lid upside-down?</p><div class="opts"><button type="button">Flat plate on the bed, lip pointing up, no supports</button><button type="button">Looks better</button><button type="button">Uses less filament</button></div><div class="why">A flat face on the bed gives adhesion and avoids supports.</div></div><p class="score">Answer all questions. Pass mark: 70%.</p></div>
+
+<h2>You can now…</h2><ul><li>Build a parametric two-part product</li><li>Verify snap-fit strain by calculation</li><li>Iterate with measurements</li></ul>
+<p><button id="mark" class="primary" type="button">Mark module complete</button></p>
+<h3>Your notes</h3><textarea class="notes" aria-label="Notes for this page" placeholder="Settings that worked, mistakes, ideas…"></textarea>
+<div class="nav"><a class="btn" href="07-x2d-and-materials.html">← The X2D, filaments and upkeep</a><a class="btn primary" href="reference.html">Reference and troubleshooting →</a></div></main><script src="assets/js/main.js"></script></body></html>

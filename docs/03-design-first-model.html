@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design your first model · 3D Printing Bootcamp</title><link rel="stylesheet" href="assets/css/main.css"></head><body>
+<header class="top"><a class="brand" href="index.html">3DP Bootcamp</a><div class="bar" role="progressbar" aria-label="Course progress"><i></i></div><button id="theme" type="button" aria-label="Toggle dark mode">◐</button></header>
+<main><div class="kicker">Module 3</div><h1>Design your first model</h1>
+<div class="objectives"><h3>By the end you can…</h3><ul><li>Explain sketch → extrude → modify as the CAD loop</li><li>Use named parameters so a design can be resized in seconds</li><li>Export a part for the slicer from Tinkercad or Fusion</li></ul></div>
+
+<h2>Choose your CAD app</h2>
+<div class="table-wrap"><table><tr><th>App</th><th>Good for</th><th>Trade-off</th></tr><tr><td>Tinkercad (browser)</td><td>First prints in 20 minutes: combine shapes, subtract holes</td><td>Limited precision and parametrics</td></tr><tr><td>Fusion (ex-Fusion 360)</td><td>Parametric parts, timeline history, assemblies</td><td>Check Autodesk's current personal-use licence terms</td></tr><tr><td>Onshape</td><td>Browser CAD with versioning</td><td>Free plan is for public/non-commercial work</td></tr><tr><td>FreeCAD</td><td>Open source, fully local</td><td>Steeper learning curve</td></tr></table></div>
+<p>The steps below use Fusion terminology, but the same loop exists in every CAD program.</p>
+
+<h2>The CAD loop</h2>
+<ol><li><strong>Sketch</strong> a 2D profile on a plane and add <strong>dimensions and constraints</strong> so it is fully defined.</li><li><strong>Extrude</strong> (or revolve) it into a solid; choose join, cut or new body.</li><li><strong>Modify</strong>: fillet/chamfer edges, shell, add holes.</li><li><strong>Parameters</strong>: name your key sizes (<code>width</code>, <code>wall</code>, <code>cable_d</code>) and use them in sketches so changing one number updates the model.</li></ol>
+
+<h2>Worked example: parametric cable clip</h2>
+<p>A clip that sticks to a desk edge and holds a 6 mm cable. Create these parameters first (Modify → Change Parameters → User Parameters):</p>
+<div class="table-wrap"><table><tr><th>Name</th><th>Value</th><th>Meaning</th></tr><tr><td>width</td><td>30 mm</td><td>Clip width</td></tr><tr><td>wall</td><td>2.4 mm</td><td>Wall thickness (≈ 6 loops at 0.42)</td></tr><tr><td>cable_d</td><td>6 mm</td><td>Cable diameter</td></tr><tr><td>clear</td><td>0.4 mm</td><td>Extra gap so the cable slides in</td></tr></table></div>
+<ol>
+<li>Sketch on the XY plane: a centre circle of diameter <code>cable_d + clear</code>.</li>
+<li>Draw an outer circle of diameter <code>cable_d + clear + 2*wall</code>.</li>
+<li>Extrude the ring <code>width</code>.</li>
+<li>Sketch a slot on the top for the cable to snap in: a rectangle narrower than the cable (<code>cable_d*0.8</code>), cut through the ring.</li>
+<li>Fillet the slot's edges 0.6 mm so the cable doesn't catch.</li>
+<li>Add a flat base: sketch a rectangle under the ring, extrude to join. A flat base prints without supports.</li>
+<li>Export: right-click the body in the browser → <em>Save as Mesh</em> → 3MF (or STL), millimetres, refinement “High”.</li>
+</ol>
+<p>Now change <code>cable_d</code> to 4 and watch everything update. That is parametric design.</p>
+<div class="callout tip"><strong>Tinkercad version:</strong> drop a tube, set the hole size to the cable diameter + 0.4, add a box under it as a base, subtract a small box from the top as the slot, then Export → STL.</div>
+
+<h2>Exercises</h2>
+<div class="exercise"><span class="tag">EXERCISE 1</span><h3>Resize in one step</h3><p>Change <code>cable_d</code> to 4 mm and <code>width</code> to 20 mm in your clip. What breaks?</p>
+<details class="hint"><summary>Hint</summary><div>If something breaks, a dimension was typed as a number instead of using a parameter.</div></details>
+<details class="solution"><summary>Show solution</summary><div>Nothing should break. Anything that doesn't update still contains a hard-coded number; replace it with the parameter name.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 2</span><h3>Add a mounting hole</h3><p>Add a 3.4 mm hole through the base for an M3 screw, centred 6 mm from the edge. Make 3.4 a parameter called <code>m3_hole</code>.</p>
+<details class="hint"><summary>Hint</summary><div>Sketch on the top face of the base, circle, dimension, then extrude-cut through all.</div></details>
+<details class="solution"><summary>Show solution</summary><div>3.4 mm gives clearance around an M3 screw (nominal 3.0) after the printer's slight shrinkage of holes. See module 4.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 3</span><h3>Rebuild in Tinkercad</h3><p>Make the same clip using only a tube, boxes and the Hole tool. Compare how long it took and what you couldn't set precisely.</p>
+<details class="hint"><summary>Hint</summary><div>Tinkercad dimensions are typed in the shape's handles.</div></details>
+<details class="solution"><summary>Show solution</summary><div>Tinkercad is faster for one-offs, parametric CAD is faster for the second and third version. Both are valid; choose by how often you'll change the design.</div></details></div>
+<h2>Checkpoint quiz</h2><div class="quiz"><div class="q" data-answer="1"><p>What makes a CAD model 'parametric'?</p><div class="opts"><button type="button">It has many curves</button><button type="button">Key dimensions are named values that drive the geometry</button><button type="button">It is exported as STL</button></div><div class="why">Parameters let you edit one number and rebuild the whole model.</div></div><div class="q" data-answer="1"><p>Why design the clip with a flat base?</p><div class="opts"><button type="button">It looks nicer</button><button type="button">It prints without support and sticks to the plate</button><button type="button">STL needs it</button></div><div class="why">A flat face on the plate gives adhesion and removes the need for supports.</div></div><div class="q" data-answer="0"><p>Which export is best for a one-colour print you'll slice immediately?</p><div class="opts"><button type="button">3MF or STL in millimetres</button><button type="button">Fusion&#x27;s native .f3d</button><button type="button">A screenshot</button></div><div class="why">Slicers read mesh formats; the original CAD file stays your master.</div></div><div class="q" data-answer="1"><p>You type 6 into a sketch dimension instead of using cable_d. Result?</p><div class="opts"><button type="button">Nothing</button><button type="button">That dimension won&#x27;t follow later parameter changes</button><button type="button">The file won&#x27;t export</button></div><div class="why">Hard-coded numbers don't update when the parameter changes.</div></div><p class="score">Answer all questions. Pass mark: 70%.</p></div>
+
+<h2>You can now…</h2><ul><li>Run the sketch-extrude-modify loop</li><li>Use named parameters</li><li>Export a mesh for the slicer</li></ul>
+<p><button id="mark" class="primary" type="button">Mark module complete</button></p>
+<h3>Your notes</h3><textarea class="notes" aria-label="Notes for this page" placeholder="Settings that worked, mistakes, ideas…"></textarea>
+<div class="nav"><a class="btn" href="02-file-formats.html">← File formats and conversion</a><a class="btn primary" href="04-design-for-print.html">Design for print →</a></div></main><script src="assets/js/main.js"></script></body></html>

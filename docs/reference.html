@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cheat sheet, glossary and troubleshooting · 3D Printing Bootcamp</title><link rel="stylesheet" href="assets/css/main.css"></head><body>
+<header class="top"><a class="brand" href="index.html">3DP Bootcamp</a><div class="bar" role="progressbar" aria-label="Course progress"><i></i></div><button id="theme" type="button" aria-label="Toggle dark mode">◐</button></header>
+<main><div class="kicker">Reference</div><h1>Cheat sheet, glossary and troubleshooting</h1>
+<div class="objectives"><h3>By the end you can…</h3><ul><li>Look up core numbers quickly</li><li>Diagnose common print defects</li><li>Know where to go next</li></ul></div>
+
+<h2>Cheat sheet</h2>
+<div class="table-wrap"><table><tr><th>Topic</th><th>Number</th></tr><tr><td>Line width (0.4 nozzle)</td><td>≈ 0.42–0.45 mm</td></tr><tr><td>Everyday layer height</td><td>0.20 mm</td></tr><tr><td>Min wall / structural wall</td><td>1.2 mm / ≥ 2.0 mm</td></tr><tr><td>Overhang without support</td><td>≤ 45° from vertical</td></tr><tr><td>Bridge</td><td>≤ ~25 mm clean</td></tr><tr><td>Hole add-on</td><td>+0.2 to +0.4 mm</td></tr><tr><td>M3 clearance hole</td><td>3.2–3.4 mm</td></tr><tr><td>Sliding / snug gap</td><td>0.3–0.4 / 0.2 mm</td></tr><tr><td>Bottom chamfer</td><td>0.4–0.6 mm</td></tr><tr><td>Inch → mm</td><td>× 25.4</td></tr></table></div>
+
+<h2>Troubleshooting</h2>
+<div class="table-wrap"><table><tr><th>Symptom</th><th>Likely cause</th><th>Try</th></tr><tr><td>First layer won't stick</td><td>Dirty plate, wrong plate setting, wrong first-layer calibration</td><td>Clean the plate; verify plate type in the slicer; re-run calibration</td></tr><tr><td>Corners lifting (warping)</td><td>Cooling/shrinkage, large footprint</td><td>Brim, enclosure heat for ABS/ASA, avoid sharp base corners</td></tr><tr><td>Stringing</td><td>Wet filament, temperature too high</td><td>Dry the filament; reduce temperature; check retraction settings</td></tr><tr><td>Rough overhang undersides</td><td>Overhang > 45°</td><td>Reorient, chamfer, or add support</td></tr><tr><td>Holes too small</td><td>Normal plastic behaviour</td><td>Add clearance in CAD</td></tr><tr><td>Layers separated</td><td>Under-extrusion or cold hotend</td><td>Check filament dryness and temperature; increase wall loops</td></tr><tr><td>Supports won't come off</td><td>Support interface too dense/close</td><td>Increase the support gap in the slicer; use the support nozzle for supports</td></tr><tr><td>Parts won't fit together</td><td>Tolerance too tight</td><td>Add 0.1 mm clearance and reprint</td></tr></table></div>
+
+<h2>Glossary</h2>
+<dl>
+<dt>B-rep</dt><dd>Boundary representation: exact solid surfaces used by CAD and STEP.</dd>
+<dt>Brim</dt><dd>A flat ring around the first layer to improve adhesion.</dd>
+<dt>Elephant foot</dt><dd>Bulge at the bottom edge caused by first-layer squish.</dd>
+<dt>G-code</dt><dd>The machine instructions the slicer generates.</dd>
+<dt>Infill</dt><dd>Internal sparse fill pattern.</dd>
+<dt>Manifold</dt><dd>A watertight mesh where each edge belongs to exactly two faces.</dd>
+<dt>Perimeter / wall loop</dt><dd>One outline pass of extruded line.</dd>
+<dt>Slicer</dt><dd>Software that cuts a model into layers and makes toolpaths (Bambu Studio).</dd>
+<dt>Tessellation</dt><dd>Converting curved surfaces into triangles.</dd>
+</dl>
+
+<h2>Where to go next</h2>
+<ul><li>Bambu Lab Wiki for your printer: the authority for settings and maintenance.</li><li>MakerWorld: download, remix and share models with proper credit.</li><li>Learn assemblies and joints in Fusion or Onshape; learn sculpting in Blender.</li><li>Print temperature towers, retraction tests and tolerance coupons to build your own data.</li><li>Redo the capstone with a hinged lid or a dissolvable-support design on the X2D.</li></ul>
+
+<h2>You can now…</h2><ul><li>Look up key numbers</li><li>Troubleshoot defects</li><li>Plan what to learn next</li></ul>
+
+<h3>Your notes</h3><textarea class="notes" aria-label="Notes for this page" placeholder="Settings that worked, mistakes, ideas…"></textarea>
+<div class="nav"><a class="btn" href="capstone.html">← Capstone: snap-fit box</a><a class="btn primary" href="index.html">Course home</a></div></main><script src="assets/js/main.js"></script></body></html>

@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Edit, repair and remix models · 3D Printing Bootcamp</title><link rel="stylesheet" href="assets/css/main.css"></head><body>
+<header class="top"><a class="brand" href="index.html">3DP Bootcamp</a><div class="bar" role="progressbar" aria-label="Course progress"><i></i></div><button id="theme" type="button" aria-label="Toggle dark mode">◐</button></header>
+<main><div class="kicker">Module 5</div><h1>Edit, repair and remix models</h1>
+<div class="objectives"><h3>By the end you can…</h3><ul><li>Choose the right edit route: CAD, Bambu Studio or Blender</li><li>Detect and repair non-manifold and flipped-normal meshes</li><li>Remix a MakerWorld model respecting its licence</li></ul></div>
+
+<h2>Which route for which edit?</h2>
+<div class="table-wrap"><table><tr><th>You have</th><th>You want</th><th>Route</th></tr><tr><td>STEP or CAD file</td><td>Change dimensions</td><td>Open in CAD, edit parameters or features</td></tr><tr><td>STL/3MF mesh</td><td>Cut it, add a block, add text, scale</td><td>Bambu Studio (cut, add shapes, text emboss, boolean)</td></tr><tr><td>Broken or messy mesh</td><td>Repair holes, merge, decimate</td><td>Blender (3D-Print Toolbox) or Bambu Studio's import repair</td></tr><tr><td>Mesh</td><td>Exact dimensional change (e.g. move a hole)</td><td>Rebuild in CAD using the mesh as reference</td></tr></table></div>
+<div class="callout"><strong>Rule:</strong> edit as upstream as possible. Fixing the CAD source beats fixing the mesh; fixing the mesh beats fixing it in the slicer.</div>
+
+<h2>What 'broken' means</h2>
+<ul><li><strong>Non-manifold edges</strong>: an edge shared by more or fewer than two faces. The slicer can't tell inside from outside.</li><li><strong>Holes</strong>: missing triangles in the surface.</li><li><strong>Flipped normals</strong>: faces pointing inward.</li><li><strong>Intersecting / duplicate geometry</strong>: overlapping shells or doubled vertices.</li></ul>
+<p>Bambu Studio flags many of these with a warning icon on import and attempts a repair. Check the preview anyway: missing walls or odd gaps in the sliced layers mean the repair didn't fix it.</p>
+
+<h2>Worked example: repair in Blender</h2>
+<ol><li>Import the STL. Set Scene Properties → Units → Metric, Unit Scale <code>0.001</code>, Length <em>Millimetres</em> so the dimensions you see are real.</li><li>Tab into Edit Mode. Select → Select All by Trait → <em>Non Manifold</em>. Whatever highlights is a problem area.</li><li>Merge near-duplicate vertices, then recalculate normals outward, then fill holes (select the boundary loop, press <code>F</code>).</li><li>Enable the <em>3D-Print Toolbox</em> extension and run Check All: it lists non-manifold edges, intersections, thin walls and overhangs.</li><li>Export STL or 3MF in millimetres.</li></ol>
+<p>The same steps by script (run in Blender's Scripting tab with the object active):</p>
+<pre><code>import bpy
+bpy.ops.object.mode_set(mode='EDIT')
+bpy.ops.mesh.select_all(action='SELECT')
+bpy.ops.mesh.remove_doubles(threshold=0.0001)       # merge near-duplicate vertices
+bpy.ops.mesh.normals_make_consistent(inside=False)  # point normals outward
+bpy.ops.mesh.select_all(action='DESELECT')
+bpy.ops.mesh.select_non_manifold()                   # highlights what is still broken
+</code></pre>
+
+<h2>Remixing from MakerWorld</h2>
+<ul><li>Read the model's <strong>licence</strong>. Some allow remixing with credit; some forbid derivatives or commercial use.</li><li>Prefer downloading the project 3MF: it carries the author's tested orientation, colours and profile.</li><li>Quick modifications (cut a piece off, add a hole, emboss your name) can be done in Bambu Studio without CAD.</li><li>Credit the original author when you share a remix.</li></ul>
+
+<h2>Exercises</h2>
+<div class="exercise"><span class="tag">EXERCISE 1</span><h3>Pick the route</h3><p>(a) Make a downloaded STEP bracket 10 mm longer. (b) Add your name on top of a downloaded STL. (c) A scan has pinholes. Which tool for each?</p>
+<details class="hint"><summary>Hint</summary><div>Match the table.</div></details>
+<details class="solution"><summary>Show solution</summary><div>(a) CAD parameter edit. (b) Bambu Studio text emboss / add shape. (c) Blender fill holes / merge vertices, then 3D-Print Toolbox check.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 2</span><h3>Find the problem</h3><p>The sliced preview shows a missing wall on one side. What do you check first and which Blender selection finds it?</p>
+<details class="hint"><summary>Hint</summary><div>Think non-manifold.</div></details>
+<details class="solution"><summary>Show solution</summary><div>Likely a hole or non-manifold edge in the mesh. In Blender: Edit Mode → Select → Select All by Trait → Non Manifold, then fill or merge.</div></details></div>
+<div class="exercise"><span class="tag">EXERCISE 3</span><h3>Licence check</h3><p>You want to sell a remixed phone stand you found online. What do you check before printing 50?</p>
+<details class="hint"><summary>Hint</summary><div>Not every licence allows commerce.</div></details>
+<details class="solution"><summary>Show solution</summary><div>The model's licence terms: commercial use, derivatives and attribution. If unclear, ask the author or choose a different base model.</div></details></div>
+<h2>Checkpoint quiz</h2><div class="quiz"><div class="q" data-answer="1"><p>Best tool for changing a hole position on a STEP file?</p><div class="opts"><button type="button">Blender</button><button type="button">Your CAD app</button><button type="button">Bambu Studio paint tool</button></div><div class="why">STEP is editable solid geometry; CAD keeps dimensions accurate.</div></div><div class="q" data-answer="1"><p>'Non-manifold' means…</p><div class="opts"><button type="button">The mesh is too big</button><button type="button">Edges aren&#x27;t shared by exactly two faces</button><button type="button">It&#x27;s an OBJ file</button></div><div class="why">The mesh surface isn't a clean closed shell.</div></div><div class="q" data-answer="0"><p>What should you do before remixing a MakerWorld model?</p><div class="opts"><button type="button">Read the licence</button><button type="button">Delete the metadata</button><button type="button">Convert to STEP</button></div><div class="why">Licences define whether modification and commercial use are allowed.</div></div><div class="q" data-answer="0"><p>In Blender, STL dimensions look wrong unless you…</p><div class="opts"><button type="button">Set the unit scale/length to millimetres</button><button type="button">Switch to Cycles</button><button type="button">Add a camera</button></div><div class="why">Blender's default unit is metres; STL import needs the unit set correctly.</div></div><p class="score">Answer all questions. Pass mark: 70%.</p></div>
+
+<h2>You can now…</h2><ul><li>Select the right editing route</li><li>Repair a broken mesh</li><li>Remix with the right licence checks</li></ul>
+<p><button id="mark" class="primary" type="button">Mark module complete</button></p>
+<h3>Your notes</h3><textarea class="notes" aria-label="Notes for this page" placeholder="Settings that worked, mistakes, ideas…"></textarea>
+<div class="nav"><a class="btn" href="04-design-for-print.html">← Design for print</a><a class="btn primary" href="06-slicing.html">Slicing in Bambu Studio →</a></div></main><script src="assets/js/main.js"></script></body></html>
